@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    BLOGII
+                    BLOGII uli
                 </div>
 
                 <div class="links">
