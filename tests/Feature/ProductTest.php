@@ -93,28 +93,7 @@ class ProductTest extends TestCase
         ]);*/
     }
     //https://www.toptal.com/laravel/restful-laravel-api-tutorial
-    public function testArticlesAreListedCorrectly()
-    {
-        factory(Product::class)->create([
-            'name' => 'Super Product',
-            'price' => '23.30'
-        ]);
 
-        factory(Product::class)->create([
-            'name' => 'Super Product2',
-            'price' => '23.30'
-        ]);
-
-        $response = $this->json('GET', '/api/products')
-            ->assertStatus(200)
-            ->assertJson([
-                [ 'name' => 'Super Product', 'price' => '23.30' ],
-                [ 'price' => 'Super Product2', 'price' => '23.30' ]
-            ])
-            ->assertJsonStructure([
-                '*' => ['id', 'name', 'price', 'created_at', 'updated_at'],
-            ]);
-    }
     public function test_client_get_all_products()
     {
         // Given
@@ -173,6 +152,7 @@ class ProductTest extends TestCase
         // Then
         // Assert it sends the correct HTTP Status
         //$response->assertStatus(204);
+        $response->assertStatus(200);
         
         // Assert product isn't on the database
         $this->assertDatabaseMissing(
