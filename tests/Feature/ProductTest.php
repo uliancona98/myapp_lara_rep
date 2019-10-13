@@ -141,6 +141,9 @@ class ProductTest extends TestCase
         ]);*/
     }
 
+    /**
+    * UPDATE-1
+    */     
     public function test_client_update_a_product()
     {
         // Given
