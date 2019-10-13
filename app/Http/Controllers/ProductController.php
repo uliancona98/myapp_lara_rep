@@ -40,10 +40,13 @@ class ProductController extends Controller
 		// Create a new product
 		$product = Product::create($request->all());
 
+
 		// Return a response with a product json
 		// representation and a 201 status code   
 		return response()->json($product,201);
     }
+
+
 
     /**
      * Display the specified resource.
@@ -80,7 +83,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->update($request->all());
-        return $product;
+        return response()->json($product,200);
     }
 
     /**

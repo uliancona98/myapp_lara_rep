@@ -11,7 +11,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ProductTest extends TestCase
 {
     use RefreshDatabase;
-    
+    /**
+     * CREATE-1
+     */    
     public function test_client_can_create_a_product()
     {
         // Given
@@ -54,6 +56,9 @@ class ProductTest extends TestCase
         );
     }
 
+    /**
+    * GET_A_PRODUCT-1
+    */    
     public function test_client_get_a_product()
     {
         // Given
@@ -94,6 +99,10 @@ class ProductTest extends TestCase
     }
     //https://www.toptal.com/laravel/restful-laravel-api-tutorial
 
+
+    /**
+    * GET_PRODUCTS-1
+    */      
     public function test_client_get_all_products()
     {
         // Given
@@ -132,6 +141,45 @@ class ProductTest extends TestCase
         ]);*/
     }
 
+    public function test_client_update_a_product()
+    {
+        // Given
+
+        // Assert product is on the database
+        /*$this->assertDatabaseHas(
+            'products',
+            [
+                'id' => $product_id,
+                'name' => 'Super Product',
+                'price' => '23.30'
+            ]
+        );*/
+
+        // When
+        $response = $this->json('PUT', '/api/products');
+
+        // Then
+        // Assert it sends the correct HTTP Status
+        $response->assertStatus(200);
+        
+        // Assert the response has the correct structure
+        /*$response->assertJsonStructure([
+            'id',
+            'name',
+            'price'
+        ]);*/
+
+        // Assert the product is returned                 //was created
+        // with the correct data
+        /*$response->assertJsonFragment([
+            'name' => 'Super Product',
+            'price' => '23.30'
+        ]);*/
+    }
+
+    /**
+    * DELETE-1
+    */     
     public function test_client_can_delete_a_product()
     {
         // Given
