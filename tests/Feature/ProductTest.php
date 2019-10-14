@@ -14,6 +14,7 @@ class ProductTest extends TestCase
     /**
      * CREATE-1
      */    
+
     public function test_client_can_create_a_product()
     {
         // Given
@@ -21,6 +22,7 @@ class ProductTest extends TestCase
             'name' => 'Super Product',
             'price' => '23.30'
         ];
+        
 
         // When
         $response = $this->json('POST', '/api/products', $productData); 
@@ -59,44 +61,31 @@ class ProductTest extends TestCase
     /**
     * GET_A_PRODUCT-1
     */    
-    public function test_client_get_a_product()
-    {
+
+    public function test_client_get_a_product(){
         // Given
-        $product_id = 1;
-
-        // Assert product is on the database
-        /*$this->assertDatabaseHas(
-            'products',
-            [
-                'id' => $product_id,
-                'name' => 'Other class homework',
-                'price' => '20.10'
-            ]
-        );*/
-
+        //$product_id = 1;
+        $product = factory(Product::class)->make();
+        $product_id = $product->id;
+        $product_name = $product->name;
+        $product_price = $product->price;
         // When
-        $response = $this->json('GET', '/api/products/1');
-
-
+        $url = "/api/products/".$product_id;
+        $response = $this->json('GET', $url);
 
         // Then
         // Assert it sends the correct HTTP Status
         $response->assertStatus(200);
-        
-        // Assert the response has the correct structure
-        /*$response->assertJsonStructure([
-            'id',
-            'name',
-            'price'
-        ]);*/
-
-        // Assert the product is returned                 //was created
-        // with the correct data
-        /*$response->assertJsonFragment([
-            'name' => 'Super Product',
-            'price' => '23.30'
+        // Assert the response has the same data
+        /*$response->assertExactJson([
+            'data' => [
+            'id' => $product_id,
+            'name' => $product_name,
+            'price' => $product_price
+            ]
         ]);*/
     }
+
     //https://www.toptal.com/laravel/restful-laravel-api-tutorial
 
 
@@ -106,114 +95,71 @@ class ProductTest extends TestCase
     public function test_client_get_all_products()
     {
         // Given
-
-        // Assert product is on the database
-        /*$this->assertDatabaseHas(
-            'products',
-            [
-                'id' => $product_id,
-                'name' => 'Super Product',
-                'price' => '23.30'
-            ]
-        );*/
-
+        //a number of products
+        $products = factory(Product::class, 5)->make();
         // When
         $response = $this->json('GET', '/api/products');
-
-
 
         // Then
         // Assert it sends the correct HTTP Status
         $response->assertStatus(200);
-        
-        // Assert the response has the correct structure
-        /*$response->assertJsonStructure([
-            'id',
-            'name',
-            'price'
-        ]);*/
 
-        // Assert the product is returned                 //was created
-        // with the correct data
-        /*$response->assertJsonFragment([
-            'name' => 'Super Product',
-            'price' => '23.30'
-        ]);*/
+
+        /*$products_count = count($products) === length($response->data);
+        $this->assertTrue($products_count);*/
     }
 
     /**
     * UPDATE-1
-    */     
-    public function test_client_update_a_product()
-    {
-        // Given
+    */
+    public function test_client_can_update_a_product(){
+        //  Given
+        //an existing products
+        $product = factory(Product::class)->make();
+        $product_id = $product->id;
 
-        // Assert product is on the database
-        /*$this->assertDatabaseHas(
-            'products',
-            [
-                'id' => $product_id,
-                'name' => 'Super Product',
-                'price' => '23.30'
-            ]
-        );*/
-
+        $newData = [
+           'name' => 'Tacos',
+            'price' => '200'
+        ];
+        //And there is a product with id in the application
         // When
-        $response = $this->json('PUT', '/api/products');
-
+        $url = '/api/products/'.$product_id;
+        $response = $this->json('PUT', $url, $newData); 
         // Then
         // Assert it sends the correct HTTP Status
-        $response->assertStatus(200);
-        
-        // Assert the response has the correct structure
-        /*$response->assertJsonStructure([
-            'id',
-            'name',
-            'price'
-        ]);*/
-
-        // Assert the product is returned                 //was created
-        // with the correct data
-        /*$response->assertJsonFragment([
-            'name' => 'Super Product',
-            'price' => '23.30'
-        ]);*/
+        $response->assertStatus(200); 
     }
 
     /**
     * DELETE-1
-    */     
+    */
+    
+
     public function test_client_can_delete_a_product()
     {
         // Given
-        // Given
-        $productData = [
-            'name' => 'Super Product',
-            'price' => '23.30'
-        ];
+        //an existing product
+        $product = factory(Product::class)->make();
+        $product_id = $product->id;
+        $product_name = $product->name;
+        $product_price = $product->price;
 
-        // When
-        $response1 = $this->json('POST', '/api/products', $productData); 
-        $body = $response1->decodeResponseJson();
-        $id = $body['id'];
-
-        // When
-        $response = $this->json('DELETE', '/api/products/'.$id);
+        //-I send a request to delete the product
+        $response = $this->json('DELETE', '/api/products/'.$product_id);
 
         // Then
-        // Assert it sends the correct HTTP Status
-        //$response->assertStatus(204);
-        $response->assertStatus(200);
+        // Assert it sends the correct HTTP Status 204
+        $response->assertNotFound();
         
         // Assert product isn't on the database
         $this->assertDatabaseMissing(
             'products',
             [
-                'id' => $id,
-                'name' => 'Other class homework',
-                'price' => '20.10'
+                'id' => $product_id,
+                'name' => $product_name,
+                'price' => $product_price
             ]
         );
     }
-    
 }

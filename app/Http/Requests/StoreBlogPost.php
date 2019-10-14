@@ -13,7 +13,7 @@ class StoreBlogPost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,8 +24,26 @@ class StoreBlogPost extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
+            'name' => 'required|max:191',
+            'price' => 'integer|required|min:0|max:10'
         ];
     }
+
+
+    public function messages()
+    {
+        $data = '{
+            "name": "Aragorn",
+            "race": "Human"
+        }';
+        $marks = array("Peter"=>65, "Harry"=>80, "John"=>78, "Clark"=>90);
+
+        $character = json_encode($marks); 
+      return [
+        'name.required' => $character,
+        'price.required' => $character,
+        'price.max' => $character,
+    ];
+    }
+
 }

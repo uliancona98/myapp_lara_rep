@@ -1,9 +1,9 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Product;
-use Illuminate\Support\Str;
+use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +16,6 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Product::class, function (Faker $faker) {
-    return [
-        'id'=> $faker->randomDigit,
-        'name' => $faker->name,
-        'price'=> $faker->randomDigit,
-    ];
-});
-
-/*
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -34,4 +25,3 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
-*/

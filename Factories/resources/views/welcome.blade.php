@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    BLOGII uli22
+                    Laravel
                 </div>
 
                 <div class="links">
@@ -96,14 +96,5 @@
                 </div>
             </div>
         </div>
-					@if ($errors->any())
-				  <div class="alert alert-danger">
-					<ul>
-						@foreach ($errors->all() as $error)
-						  <li>{{ $error }}</li>
-						@endforeach
-					</ul>
-				  </div><br />
-			@endif
     </body>
 </html>
