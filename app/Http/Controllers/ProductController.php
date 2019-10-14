@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductCreateRequest;
-use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\ProductsUpdateRequest;
  /**
  * @author Ulises Ancona>
  */
@@ -131,7 +131,7 @@ class ProductController extends Controller
      * @param id    
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductUpdateRequest $request, Product $product, $id)
+    public function update(ProductsUpdateRequest $request, Product $product, $id)
     {
         //First find the product to be updated
         $product = Product::find($id);

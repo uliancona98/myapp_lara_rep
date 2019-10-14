@@ -24,7 +24,6 @@ class ProductCreateRequest extends FormRequest
         throw new HttpResponseException(
             
             response()->json([
-            'status' => false,
             'errors' => $validator->errors()->messages()
           ], 200)
         ); 
