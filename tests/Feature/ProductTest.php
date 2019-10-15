@@ -25,8 +25,8 @@ class ProductTest extends TestCase
     {
         // Given data of a product
         $productData = [
-            'name' => 'Product 3',
-            'price' => '99.99'
+            'name' => 'Avocado',
+            'price' => '34.66'
         ];
         // When
         $response = $this->json('POST', '/api/products', $productData); 
@@ -43,8 +43,8 @@ class ProductTest extends TestCase
         // Assert the product was created with the correct data
         $response->assertJsonFragment([
             'id' => $body['id'],
-            'name' => 'Product 3',
-            'price' => '99.99'
+            'name' => 'Avocado',
+            'price' => '34.66'
         ]);
     }
     /**
@@ -139,7 +139,7 @@ class ProductTest extends TestCase
     /**
      * CREATE-5
      */
-    public function test_client_cannot_create_a_product_if_price_is_less_or_equal_than_zero(){
+    public function test_client_cant_create_a_product_if_price_is_less_or_equal_than_zero(){
         // Given data of one product, but the price is less or equal than zero
         $productData = [
              'name' => 'Avocado',
@@ -176,7 +176,7 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->make();
         $id = $product->id;
         $newData = [
-           'name' => 'Tacos',
+           'name' => 'Avocado',
             'price' => '200'
         ];
         // When
@@ -193,7 +193,7 @@ class ProductTest extends TestCase
         // Assert the product was update with the correct data
         $response->assertJsonFragment([
             'id' => $id,
-            'name' => 'Tacos',
+            'name' => 'Avocado',
             'price' => '200'
         ]);
         
