@@ -61,8 +61,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(422);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -85,7 +84,7 @@ class ProductTest extends TestCase
     public function test_client_cannot_create_a_product_without_price(){
        // Given data without value of price (or without the attribute) of the product
        $productData = [
-            'name' => 'Product X'
+            'name' => 'Avocado'
         ];
         // When
         $response = $this->json('POST', '/api/products', $productData);
@@ -93,8 +92,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(422);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -114,8 +112,8 @@ class ProductTest extends TestCase
     public function test_client_cannot_create_a_product_if_price_is_not_numeric(){
         // Given data of one product, but the price is not numeric
         $productData = [
-             'name' => 'Product X',
-             'price' => 'CincoPeso'
+             'name' => 'Avocado',
+             'price' => 's0'
          ];
  
          // When
@@ -124,8 +122,7 @@ class ProductTest extends TestCase
          // Then
          // Assert if it sends the correct HTTP Status
          $response->assertStatus(422);
-         // Assert if there is only 1 error returned
-         $this->assertEquals(count(['errors']),1);
+
          // Assert if the body of the answer contains the error, the title and the appropriate details for the error
          $response->assertJson(
              ['errors' => 
@@ -145,7 +142,7 @@ class ProductTest extends TestCase
     public function test_client_cannot_create_a_product_if_price_is_less_or_equal_than_zero(){
         // Given data of one product, but the price is less or equal than zero
         $productData = [
-             'name' => 'Product X',
+             'name' => 'Avocado',
              'price' => '-99.99'
          ];
  
@@ -155,8 +152,7 @@ class ProductTest extends TestCase
          // Then
          // Assert if it sends the correct HTTP Status
          $response->assertStatus(422);
-         // Assert if there is only 1 error returned
-         $this->assertEquals(count(['errors']),1);
+
          // Assert if the body of the answer contains the error, the title and the appropriate details for the error
          $response->assertJson(
              ['errors' => 
@@ -220,8 +216,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(422);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -253,8 +248,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(422);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -271,11 +265,11 @@ class ProductTest extends TestCase
     /**
      * UPDATE-4
      */
-    public function test_client_cannot_update_a_product_if_the_id_doesnt_exist()
+    public function test_client_cannot_update_a_product_if_the_id_doesnt_exists()
     {
         // Given data to update a product
         $productData = [
-            'name' => 'Product X',
+            'name' => 'Avocado',
             'price' => '56.90'
         ];
         //And there is not a product with id = 10 in the application
@@ -285,8 +279,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(404);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -333,18 +326,17 @@ class ProductTest extends TestCase
     /**
      * SHOW-2
      */
-    public function test_client_cannot_get_a_product_if_the_id_doesnt_exist()
+    public function test_client_cant_get_a_product_if_the_id_dont_exists()
     {
         // Given
-        //There is not a product with id = 44 in the application
-        $id = 44;
+        //There is not a product with id = 17 in the application
+        $id = 17;
         // When
         $response = $this->json('GET', '/api/products/'.$id); 
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(404);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
@@ -375,7 +367,7 @@ class ProductTest extends TestCase
     /**
      * DELETE-2
      */
-    public function test_client_cannot_delete_a_product_if_the_id_doesnt_exist()
+    public function test_client_cannot_delete_a_product_if_the_id_doesnt_exists()
     {
         // Given
         //There is not a product with id = 10 in the application
@@ -385,8 +377,7 @@ class ProductTest extends TestCase
         // Then
         // Assert if it sends the correct HTTP Status
         $response->assertStatus(404);
-        // Assert if there is only 1 error returned
-        $this->assertEquals(count(['errors']),1);
+
         // Assert if the body of the answer contains the error, the title and the appropriate details for the error
         $response->assertJson(
             ['errors' => 
