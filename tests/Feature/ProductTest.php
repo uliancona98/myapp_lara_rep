@@ -177,12 +177,12 @@ class ProductTest extends TestCase
     public function test_client_can_update_a_product()
     {
         // Given data to update a product
-        $productData = [
-            'name' => 'Product X',
-            'price' => '89.99'
+        $product = factory(Product::class)->make();
+        $id = $product->id;
+        $newData = [
+           'name' => 'Tacos',
+            'price' => '200'
         ];
-        //And there is a product with id = 1 in the application
-        $id = 1;
         // When
         $response = $this->json('PUT', '/api/products/'.$id, $productData); 
         // Then
@@ -197,8 +197,8 @@ class ProductTest extends TestCase
         // Assert the product was update with the correct data
         $response->assertJsonFragment([
             'id' => $id,
-            'name' => 'Product X',
-            'price' => '89.99'
+            'name' => 'Tacos',
+            'price' => '200'
         ]);
         
     }
@@ -208,12 +208,13 @@ class ProductTest extends TestCase
     public function test_client_cannot_update_a_product_if_the_price_is_not_numeric()
     {
         // Given data to update a product, but the price is not numeric
+        $product = factory(Product::class)->make();
+        $id =$product->id;
+        $product->price = "S4";
         $productData = [
-            'name' => 'Product X',
-            'price' => 'CinkoPeso'
+            'name' => $product->name,
+            'price' => $product ->price
         ];
-        //And there is a product with id = 1 in the application
-        $id = 1;
         // When
         $response = $this->json('PUT', '/api/products/'.$id, $productData); 
         // Then
@@ -240,12 +241,13 @@ class ProductTest extends TestCase
     public function test_client_cannot_update_a_product_if_the_price_is_less_or_equal_than_zero()
     {
         // Given data to update a product, but the price is less or equal than zero
+        $product = factory(Product::class)->make();
+        $id =$product->id;
+        $price = $product->price = "-55.34";
         $productData = [
-            'name' => 'Product X',
-            'price' => '-56.90'
+            'name' => $product->name,
+            'price' => $price
         ];
-        //And there is a product with id = 1 in the application
-        $id = 1;
         // When
         $response = $this->json('PUT', '/api/products/'.$id, $productData); 
         // Then
@@ -304,8 +306,12 @@ class ProductTest extends TestCase
     public function test_client_can_get_a_product()
     {
         // Given
-        //There is a product with id = 2 in the application
-        $id = 2;
+        //There is a product in the application
+        //$id = 2;
+        $product = factory(Product::class)->make();
+        $id = $product->id;
+        $product_name = $product->name;
+        $product_price = $product->price;
         // When
         $response = $this->json('GET', '/api/products/'.$id); 
         // Then
@@ -320,8 +326,8 @@ class ProductTest extends TestCase
         // Assert the product was returned with the correct data
         $response->assertJsonFragment([
             'id' => $id,
-            'name' => 'Product 2',
-            'price' => '29.99'
+            'name' => $product_name,
+            'price' => $product_price
         ]);
     }
     /**

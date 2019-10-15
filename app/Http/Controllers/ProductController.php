@@ -64,6 +64,8 @@ class ProductController extends Controller
 
         //if the product exist then send a response with a 200 status and the product 
         if($project_id_exist){
+            $product = Product::find($id);
+
             return response()->json($product,200);
         }
         //else send a response with a 404 status
