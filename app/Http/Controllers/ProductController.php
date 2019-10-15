@@ -2,8 +2,7 @@
 namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductCreateRequest;
-use App\Http\Requests\ProductsUpdateRequest;
+use App\Http\Requests\ProductFormRequest;
  /**
  * @author Ulises Ancona>
  */
@@ -17,28 +16,12 @@ class ProductController extends Controller
     public function index()
     {
         $rows = Product::count();
-        $products = Product::all();
         if($rows>0){
-            $json = [
-                'success' =>[
-                    'id'=> 'LIST-1',
-                    'descripcion'=>  'La lista de productos se muestra correctamente',
-                    'respuesta HTTP'=> '200'
-                ],
-                'products'=>[
-                $products]
-            ];
-            return response()->json($json);
+
+            $products = Product::all();
+            return response()->json($products,200);
         }
-        $json = [
-            'success' =>[
-                'id'=> 'LIST-2',
-                'descripcion'=>  'No hay ningún producto en la aplicación',
-                'respuesta HTTP'=> '200'
-            ],
-            'products'=>[]
-        ];
-        return response()->json($json);
+        return response()->json([],200);
     }
 
     /**
@@ -54,26 +37,14 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Http\Request\ProductCreateRequest  $request
+     * @param  \Http\Request\ProductFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductCreateRequest $request)
+    public function store(ProductFormRequest $request)
     {
-		// Create a new product
-		$product = Product::create($request->all());
-		// Return a response with a product json
-        // representation and a 201 status code
-        $json = [
-            'success' => [
-                'id'=> 'CREATE-1',
-                'descripcion'=>  'Producto guardado con éxito',
-                'respuesta HTTP'=> '201'
-            ],
-            'product' => [
-                $product
-            ]
-        ];
-		return response()->json($json);
+        $validated = $request->validated();
+        $product = Product::create($request->all());
+        return response()->json($product,201);
     }
 
     /**
@@ -86,30 +57,18 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if($product){
-            $json = [
-                'success' => [
-                    'id'=> 'SHOW-1',
-                    'descripcion'=>  'Producto editado con éxito',
-                    'respuesta HTTP'=> '200'
-                ],
-                'product' => [
-                    $product
-                ]
-            ];
             return response()->json($product,200);
         }
-        $error = [
-            'errors' =>[
-                'id'=> 'SHOW-2',
-                'titulo'=> 'Not found',
-                'descripcion'=>  'No hay un producto con ese ID',
-                'codigo de error'=> 'ERROR-2',
-                'respuesta HTTP'=> '404'
-            ]
-        ];                
-        return response()->json($error);
-        //return response()->json(204);   
-
+        $response = [
+            'errors' => [
+                [
+                    'code' => 'ERROR-2',
+                    'title' => 'Not Found',
+                    'detail' => 'There is not a product with the id: '.$id
+                ]
+            ]  
+        ];      
+        return response()->json($response, 404);
     }
 
     /**
@@ -126,12 +85,12 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ProductFormRequest  $request
      * @param  \App\Product  $product
      * @param id    
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductsUpdateRequest $request, Product $product, $id)
+    public function update(ProductFormRequest $request, $id)
     {
         //First find the product to be updated
         $product = Product::find($id);
@@ -140,28 +99,19 @@ class ProductController extends Controller
             $product->name = $request->input('name');
             $product->price = $request->input('price');
             $product->save();
-            $json = [
-                'success' => [
-                    'id'=> 'UPDATE-1',
-                    'descripcion'=>  'El Producto se muestra correctamente',
-                    'respuesta HTTP'=> '200'
-                ],
-                'product' => [
-                    $product
-                ]
-            ];
-            return response()->json($json);
+            return response()->json($product,200);
         }
-        $error = [
-            'errors' =>[
-                'id'=> 'UPDATE-4',
-                'titulo'=> 'Not found',
-                'descripcion'=>  'El cliente manda una solicitud solicitando editar un producto con un ID que no existe',
-                'codigo de error'=> 'ERROR-2',
-                'respuesta HTTP'=> '404'
+         //else send a response with a 404 status
+        $response = [
+            'errors' => [
+                [
+                    'code' => 'ERROR-2',
+                    'title' => 'Not Found',
+                    'detail' => 'There is not a product with the id: '.$id
+                ]
             ]
-        ];       
-        return response()->json($error);
+        ];
+        return response()->json($response,404);
     }
 
     /**
@@ -174,28 +124,19 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if($product){
-            $product = Product::findOrFail($id);
             $product->delete();
-            $json = [
-                'success' => [
-                    'id'=> 'DELETE-1',
-                    'descripcion'=>  'Producto eliminado correctamente',
-                    'respuesta HTTP'=> '204'
-                ]
-            ];
-            return response()->json($json);
+            return response()->json('',204);
         }
-        $error = [
-            'errors' =>[
-                'id'=> 'DELETE-2',
-                'titulo'=> 'Not found',
-                'descripcion'=>  'No hay un producto con ese ID',
-                'codigo de error'=> 'ERROR-2',
-                'respuesta HTTP'=> '404'
+        $response = [
+            'errors' => [
+                [
+                    'code' => 'ERROR-2',
+                    'title' => 'Not Found',
+                    'detail' => 'There is not a product with the id: '.$id
+                ]
             ]
-
-        ];                
-        return response()->json($error);
+        ];
+        return response()->json($response,404);
     }
 
 }

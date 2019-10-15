@@ -1,8 +1,9 @@
 <?php
-
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-
-class ProductsTableSeeder extends Seeder
+use Illuminate\Support\Facades\DB;
+use databases\factories\ProductFactory;
+class ProductTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,10 +12,13 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        /*{
-            DB::table('products')->insert([
-                'name' => Str::random(10),
-                'price' => 56.11
-            ]);    }*/
+        factory(App\Product::class)->create([
+            'name' => 'Product 1',
+            'price' => '25.99'
+        ]);
+        factory(App\Product::class)->create([
+            'name' => 'Product 2',
+            'price' => '29.99'
+        ]);
     }
 }
