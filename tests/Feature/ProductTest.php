@@ -336,8 +336,8 @@ class ProductTest extends TestCase
     public function test_client_cannot_get_a_product_if_the_id_doesnt_exist()
     {
         // Given
-        //There is not a product with id = 10 in the application
-        $id = 10;
+        //There is not a product with id = 44 in the application
+        $id = 44;
         // When
         $response = $this->json('GET', '/api/products/'.$id); 
         // Then
