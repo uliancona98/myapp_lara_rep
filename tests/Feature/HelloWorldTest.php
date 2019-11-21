@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class HelloWorld extends TestCase
+class HelloWorldTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -19,7 +19,6 @@ class HelloWorld extends TestCase
 
         $response->assertStatus(200);
     }
-
     public function test_when_client_send_a_request_a_hello_world_is_responded()
     {
         
